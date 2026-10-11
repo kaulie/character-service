@@ -218,3 +218,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local runtime (not committed)
+.venv/
+venv/
+pyenv/
+__pycache__/
+*.pyc
+.mediapipe/
+MP_HOME/
