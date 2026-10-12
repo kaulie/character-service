@@ -1,32 +1,32 @@
 # AGENT.md — 后续 Agent 对本仓库的说明与向导
 
-你是来改 **character-service** 的。先读本文，再按 [`README.md`](README.md) 展开理解。  
-本仓没有 `project_map/`。这是静图「指到哪个字」HTTP 服务，**不知道** Asset / Brain / Planner。  
+你是来改 **character-service** 的。先读本文，再按 [`docs/project_map/`](docs/project_map/README.md) 展开理解。  
+这是静图「指到哪个字」HTTP 服务，**不知道** Asset / Brain / Planner。  
 OCR 走 [kaulie/ocr-service](https://github.com/kaulie/ocr-service) `:9188`。os 已归档。
 
-## 1. 对本项目的理解
+## 1. 对本项目的理解（必须从 docs/project_map 展开）
 
 | 你应建立的判断 | 展开阅读 |
 |---|---|
-| 只收一张图，返回指尖对准的字。Gateway 包装 `reading.point_to_character` 等原子能力 | [README.md](README.md)、Gateway `point_to_character.py` |
-| 只绑回环 **`127.0.0.1:9189`**。必须先有本机 `:9188` | 同上 |
-| V1 只做一张静图。拍法不满足就失败，不猜 | README 拍法 |
-| 不在 `:4220` 登记。云上 Docker：`/root/chat-gateway/character-service` | README 启动节 |
-| 几何单测不需要 MediaPipe / OpenCV | `tests/` |
+| 只收一张图，返回指尖对准的字。Gateway 包装 `reading.point_to_character` 等原子能力 | [positioning.md](docs/project_map/positioning.md) |
+| 只绑回环 **`127.0.0.1:9189`**。必须先有本机 `:9188` | [deployment.md](docs/project_map/deployment.md) |
+| V1 只做一张静图。拍法不满足就失败，不猜 | [README.md](README.md) 拍法 |
+| 不在 `:4220` 登记。云上 Docker：`/root/chat-gateway/character-service`（host network） | [deployment.md](docs/project_map/deployment.md)、[release.md](docs/project_map/release.md) |
+| 几何单测不需要 MediaPipe / OpenCV。`test_side_char_out_of_cone` 迁仓前就失败 | [development.md](docs/project_map/development.md)、`tests/` |
 
-Runtime 会要求优先读根目录 `AGENT.md`。你正在读的就是那份。
+Runtime 会要求优先读根目录 `AGENT.md`。你正在读的就是那份。与代码不符时以 `docs/project_map` + 代码为准。
 
 ## 2. 开工前清单
 
 1. workspace origin 是 `https://github.com/kaulie/character-service`。
 2. 从最新 `main` 开 `feat|fix|chore/<简述>`。
-3. 读 `pipeline.py`、`geometry.py`、`main.py`、`tests/`。
-4. 本地验证：`python3 -m unittest discover -s tests -t .`。`test_side_char_out_of_cone` 是迁仓前就失败的几何用例，未点名不要当本次回归去「修掉」。
+3. 读 `docs/project_map/`，再读 `pipeline.py`、`geometry.py`、`main.py`、`tests/`。
+4. 本地验证：`python3 -m unittest discover -s tests -t .`。`test_side_char_out_of_cone` 未点名不要当本次回归去「修掉」。
 5. 不要占用线上 **9189**。不要改 `/Users/gaolei/runtime/**`。不要对 `:4220` 发本服务。不要改 os。
 
 ## 3. 滞后信息：有义务更新
 
-README / Dockerfile `COPY` 列表漏模块（例如曾漏 `skin_detect.py`）必须在本次改掉。  
+README / Dockerfile `COPY` 列表漏模块（例如曾漏 `skin_detect.py`）必须在本次改掉，并更新 [`docs/project_map/README.md`](docs/project_map/README.md)。  
 `run.sh` 不得再指向 os 的 `local-rt/venv`。
 
 ## 4. 与事实不符：必须提出异议，禁止默认处理
@@ -56,7 +56,7 @@ README / Dockerfile `COPY` 列表漏模块（例如曾漏 `skin_detect.py`）必
 | 镜像 | `Dockerfile`、`docker-compose.yml` |
 | 本地启动 | `run.sh`（本仓 `.venv`） |
 | eval 历史 | `eval/`（算法笔记，不是线上路径） |
-| 给后续 agent 的地图 | 本文 + README |
+| 给后续 agent 的地图 | [`docs/project_map/`](docs/project_map/README.md) + 本文 |
 
 ## 6. 交付
 
